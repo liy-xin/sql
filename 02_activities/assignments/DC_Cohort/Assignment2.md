@@ -57,7 +57,12 @@ The store wants to keep customer addresses. Propose two architectures for the CU
 **HINT:** search type 1 vs type 2 slowly changing dimensions. 
 
 ```
-Your answer...
+Your answer...:\
+The architecture that retains changes is type 2, and the architecture that overwirtes is type 1. \
+Presumably, the CUSTOMER_ADDRESS table would include columns for address information (e.g. `street`, `city`, `province`, `country`, `postal_code`, `address_type`, `effective_date_from`, `effective_date_to`) alongside columns for identification like `customer_id`, `customer_address_id`, and `is_current`. \
+Considering the type 2, change-retaining architecture, when an address changes, the old row of address record would have `is_current` = False, then insert a new row with new `customer_address_id`, new address information, and `is_current` = True. This architecture allows new addresses to be updated by adding new row to the table to store that, while still keeping the previous address information associated to each customer by keep the previous row(s) of records while set `is_current` to False to track and manage the table. Therefore, `customer_address_id` would be PK and `customer_id` would be FK (associated with the customer table).\
+With respect to the type 1, overwriting architecture, when an address changes, the existing row dedicated to store the address of the given customer_id will be updated. This simply keeps the current updated address only, while the old address(es) of the customer is lost due to overwriting. In this architecture, there would be no need to have `customer_address_id` or `is_current` columns since only the one most updated address will be stored with each customer_id. Therefore, `customer_id` is the PK, which is also the FK that related to the customer table.
+
 ```
 
 ***
