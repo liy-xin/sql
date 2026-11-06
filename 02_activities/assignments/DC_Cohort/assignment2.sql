@@ -30,7 +30,7 @@ WHERE product_size IS NULL
 
 /*create a list*/
 SELECT 
-	product_name || ', ' || product_size|| ' (' || product_qty_type || ')'
+	product_name || ', ' || COALESCE(product_size, '') || ' (' || COALESCE(product_qty_type, '') || ')'
 FROM product;
 
 --END QUERY
@@ -221,8 +221,6 @@ FROM product
 WHERE product_qty_type = 'unit';
 
 --END QUERY
-
-
 /*2. Using `INSERT`, add a new row to the product_units table (with an updated timestamp). 
 This can be any product you desire (e.g. add another record for Apple Pie). */
 --QUERY 10
@@ -238,7 +236,6 @@ INSERT INTO product_units (
 VALUES (7, 'Apple Pie', '10"', 3, 'unit', '2026-11-06 15:35:57');
 
 --END QUERY
-
 
 -- DELETE
 /* 1. Delete the older record for whatever product you added. 
@@ -298,6 +295,4 @@ SELECT product_id, product_name, current_quantity
 FROM product_units;
 
 --END QUERY
-
-
 
