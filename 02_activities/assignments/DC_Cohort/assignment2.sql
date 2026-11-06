@@ -23,6 +23,7 @@ Edit the appropriate columns -- you're making two edits -- and the NULL rows wil
 All the other rows will remain the same. */
 --QUERY 1
 /*find columns have NULLS*/
+/*find columns have NULLS*/
 SELECT *
 FROM product
 WHERE product_size IS NULL
@@ -30,7 +31,7 @@ WHERE product_size IS NULL
 
 /*create a list*/
 SELECT 
-	product_name || ', ' || COALESCE(product_size, '') || ' (' || COALESCE(product_qty_type, '') || ')'
+	product_name || ', ' || COALESCE(product_size, '') || ' (' || COALESCE(product_qty_type, 'unit') || ')'
 FROM product;
 
 --END QUERY
@@ -168,8 +169,6 @@ WHERE worst_rank = 1;
 
 --END QUERY
 
-
-
 /* SECTION 3 */
 
 -- Cross Join
@@ -186,7 +185,7 @@ Before your final group by you should have the product of those two queries (x*y
 /*produce one row per vendor and product with its price*/
 SELECT x.vendor_name,
 	x.product_name,
-	SUM(5 + x.original_price) AS total_revenue
+	SUM(5 * x.original_price) AS total_revenue
 FROM (
 	SELECT DISTINCT v.vendor_name,
 		p.product_name,
@@ -219,8 +218,11 @@ SELECT *,
 	CURRENT_TIMESTAMP AS snapshot_timestamp
 FROM product
 WHERE product_qty_type = 'unit';
+/*look up rows for product_units*/
+SELECT * FROM product_units;
 
 --END QUERY
+
 /*2. Using `INSERT`, add a new row to the product_units table (with an updated timestamp). 
 This can be any product you desire (e.g. add another record for Apple Pie). */
 --QUERY 10
@@ -233,7 +235,7 @@ INSERT INTO product_units (
 	product_qty_type, 
 	snapshot_timestamp
 )
-VALUES (7, 'Apple Pie', '10"', 3, 'unit', '2026-11-06 15:35:57');
+VALUES (7, 'Apple Pie', '10"', 3, 'unit', '2026-11-06 16:44:25');
 
 --END QUERY
 
@@ -295,4 +297,3 @@ SELECT product_id, product_name, current_quantity
 FROM product_units;
 
 --END QUERY
-
