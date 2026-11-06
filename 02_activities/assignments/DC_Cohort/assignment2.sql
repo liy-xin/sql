@@ -235,7 +235,7 @@ INSERT INTO product_units (
 	product_qty_type, 
 	snapshot_timestamp
 )
-VALUES (7, 'Apple Pie', '10"', 3, 'unit', '2026-11-06 16:44:25');
+VALUES (7, 'Apple Pie', '10"', 3, 'unit', CURRENT_TIMESTAMP);
 
 --END QUERY
 
