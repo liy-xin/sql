@@ -57,7 +57,12 @@ The store wants to keep customer addresses. Propose two architectures for the CU
 **HINT:** search type 1 vs type 2 slowly changing dimensions. 
 
 ```
-Your answer...
+Your answer...:\
+The architecture that retains changes is type 2, and the architecture that overwirtes is type 1. \
+Presumably, the CUSTOMER_ADDRESS table would include columns for address information (e.g. `street`, `city`, `province`, `country`, `postal_code`, `address_type`, `effective_date_from`, `effective_date_to`) alongside columns for identification like `customer_id`, `customer_address_id`, and `is_current`. \
+Considering the type 2, change-retaining architecture, when an address changes, the old row of address record would have `is_current` = False, then insert a new row with new `customer_address_id`, new address information, and `is_current` = True. This architecture allows new addresses to be updated by adding new row to the table to store that, while still keeping the previous address information associated to each customer by keep the previous row(s) of records while set `is_current` to False to track and manage the table. Therefore, `customer_address_id` would be PK and `customer_id` would be FK (associated with the customer table).\
+With respect to the type 1, overwriting architecture, when an address changes, the existing row dedicated to store the address of the given customer_id will be updated. This simply keeps the current updated address only, while the old address(es) of the customer is lost due to overwriting. In this architecture, there would be no need to have `customer_address_id` or `is_current` columns since only the one most updated address will be stored with each customer_id. Therefore, `customer_id` is the PK, which is also the FK that related to the customer table.
+
 ```
 
 ***
@@ -193,5 +198,9 @@ Consider, for example, concepts of labour, bias, LLM proliferation, moderating c
 
 
 ```
-Your thoughts...
+Your thoughts...:\
+In the article, Boykis discussed the idea that machine learning systems are not achieved by machines alone. There has also been large amount of dataset used for training and generating model that has to be derived from human labor. At the same time, the machine learning systems also involved many human choices along the process of development. In the example of ImageNet, it has shown that huge human effort with respect to image labeling plus the previous effort in WordNet, which organizes language and synonym, are both critical for establishing ImageNet. Considering ethics aspect of such project and work, questions like who the credits and judgment throughout development should be attributed to and who benefits from the systems could be debatable.\
+Boykis described people manually labeling image for ImageNet in the article. Such labors tend to be ignored and invisible to the companies and users that taking the overall credits and benefit from the system. Workers who labels dataset usually get small payments, do repetitive tasks, and have limited job security. On the other hand, there has also been quality concern towards the labeling, considering the limited time and/or context known by the labeling workers and potential individual bias towards the recognition tasks. Therefore, it would be important for people developing machine learning systems and neural nets being aware of the data labeling work and process, design the workflow carefully to have necessary report and checking process, and also providing sufficient compensation for the paople working in labeling.\
+Concerns and discussion around machine learning systems and neural nets apply to LLMs as well. Although LLMs are usually presented as self-contained tools with learning capability on their own, they still heavily depend on information and materials human created and provided to them. People doing the work of preparing learning materials, providing evaluations and feedbacks to LLMs training can be mostly distant from contributing to how the data they prepared are used to train the models and how the models would ultimately produces.\
+Furthermore, moderation and decision made towards content received and produced by models are likely related to social values and cultural and/or political judgement. This can apply to either conventional machine learning, deep learning, or LLMs. When it comes to moderate the model to produce appropriate decisions, the extent of modration can be critical. Systems moderate too much or setup with too much limitation may limit legitimate thoughts and speeches, whereas too little or none moderation cna also lead to misuse of any powerful systems and ultimately lead to suffering in society. 
 ```
